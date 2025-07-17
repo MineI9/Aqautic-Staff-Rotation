@@ -1,0 +1,377 @@
+[gd_scene load_steps=10 format=3 uid="uid://mbdf0iq4016c"]
+
+[ext_resource type="PackedScene" uid="uid://c4us6vq8qn86n" path="res://scenes/water_control.tscn" id="1_2hdbd"]
+[ext_resource type="Script" uid="uid://hwlthswbm2kp" path="res://scripts/main_tabs.gd" id="1_22m4x"]
+[ext_resource type="Theme" uid="uid://dpwgmkatsqow3" path="res://themes/menu.tres" id="1_qln7f"]
+[ext_resource type="Texture2D" uid="uid://db66o3vpc3gjx" path="res://icons/red_raven.png" id="2_snkyo"]
+[ext_resource type="Texture2D" uid="uid://j766csorhlqc" path="res://icons/pools/san_pedro/san_pedro.png" id="3_5pu4f"]
+[ext_resource type="Script" uid="uid://c8p33nlvhwjkk" path="res://scripts/ripple_effect.gd" id="7_qobkr"]
+[ext_resource type="Shader" uid="uid://dwv0c2u1q7ilj" path="res://shaders/shockwave_effect.gdshader" id="7_up80u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dt84h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qobkr"]
+shader = ExtResource("7_up80u")
+shader_parameter/center = Vector2(0, 0)
+shader_parameter/force = 0.025
+shader_parameter/size = 0.517
+shader_parameter/thickness = 0.05
+
+[node name="main_tabs" type="CanvasLayer"]
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="UserCreditLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 15.0
+offset_right = 28.0
+offset_bottom = 38.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.198437, 0.564925, 1)
+theme_override_font_sizes/font_size = 6
+text = "@Kriefer"
+metadata/_edit_use_anchors_ = true
+
+[node name="LogoTexture" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 45.0
+offset_right = -6.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_snkyo")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterControl" parent="." instance=ExtResource("1_2hdbd")]
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 96.0
+offset_bottom = 173.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.48, 0.48)
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MainTabs" type="TabContainer" parent="MarginContainer"]
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+theme = ExtResource("1_qln7f")
+tab_alignment = 1
+current_tab = 0
+clip_tabs = false
+tab_focus_mode = 1
+script = ExtResource("1_22m4x")
+
+[node name="Circle" type="PanelContainer" parent="MarginContainer/MainTabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="CircleMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Circle"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CircleOutline" type="Polygon2D" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
+
+[node name="CircleMain" type="Polygon2D" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
+position = Vector2(0, 120)
+
+[node name="StatsMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
+layout_mode = 2
+theme_override_constants/margin_top = 180
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin"]
+layout_mode = 2
+
+[node name="StatsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="OverviewLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+text = "Stats Overview"
+horizontal_alignment = 1
+
+[node name="OnStandHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="OnStandLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/OnStandHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "On Stand"
+horizontal_alignment = 1
+
+[node name="OnStandNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/OnStandHBox"]
+layout_mode = 2
+
+[node name="UpTimeHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="UpTimeLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/UpTimeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Up Time"
+horizontal_alignment = 1
+
+[node name="UpTimeNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/UpTimeHBox"]
+layout_mode = 2
+
+[node name="DownTimeHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="DownTimeLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/DownTimeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "Down Time"
+horizontal_alignment = 1
+
+[node name="DownTimeNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/DownTimeHBox"]
+layout_mode = 2
+
+[node name="StatsPSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="StatsPSALabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+text = "Guards As PSA"
+horizontal_alignment = 1
+
+[node name="StatsPSANumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
+layout_mode = 2
+
+[node name="Pool" type="PanelContainer" parent="MarginContainer/MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="PoolMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Pool"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PoolVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin"]
+layout_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="PoolLabel" type="Label" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="PoolDisplay" type="TextureRect" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox"]
+layout_mode = 2
+texture = ExtResource("3_5pu4f")
+expand_mode = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="PositionsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox/ScrollContainer/PositionsVBox"]
+layout_mode = 2
+
+[node name="Log" type="PanelContainer" parent="MarginContainer/MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Settings" type="PanelContainer" parent="MarginContainer/MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="SettingsMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SettingsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin"]
+layout_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="RestartHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="RestartLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Restart"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="PoolHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="PoolLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pool"
+horizontal_alignment = 1
+
+[node name="PoolOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox"]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "San Pedro"
+popup/item_0/id = 0
+popup/item_1/text = "LBJ"
+popup/item_1/id = 1
+
+[node name="IntervalHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="IntervalLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rotation Interval"
+horizontal_alignment = 1
+
+[node name="IntervalOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox"]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "15"
+popup/item_0/id = 0
+popup/item_1/text = "20"
+popup/item_1/id = 1
+
+[node name="PSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="PSALabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Guard PSA Count"
+horizontal_alignment = 1
+
+[node name="PSAOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox"]
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "0"
+popup/item_0/id = 0
+popup/item_1/text = "1"
+popup/item_1/id = 1
+popup/item_2/text = "2"
+popup/item_2/id = 2
+
+[node name="UVIndexHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="UVIndexLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "UV Index > 100 ?"
+horizontal_alignment = 1
+
+[node name="UVIndexCheckButton" type="CheckButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox"]
+layout_mode = 2
+
+[node name="LanguageHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Language"
+horizontal_alignment = 1
+
+[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox"]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "English"
+popup/item_0/id = 0
+popup/item_1/text = "Español"
+popup/item_1/id = 1
+
+[node name="ResetHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/ResetHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="ReloadWarningLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_dt84h")
+text = "* Reload App To Load Changes! *"
+horizontal_alignment = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RippleEffect" type="ColorRect" parent="CanvasLayer"]
+z_index = 2
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_qobkr")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("7_qobkr")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="tab_changed" from="MarginContainer/MainTabs" to="MarginContainer/MainTabs" method="_on_tab_changed"]
+[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox/RestartButton" to="MarginContainer/MainTabs" method="_on_restart_button_button_up"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox/PoolOptionButton" to="MarginContainer/MainTabs" method="_on_pool_option_button_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox/IntervalOptionButton" to="MarginContainer/MainTabs" method="_on_interval_option_button_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox/PSAOptionButton" to="MarginContainer/MainTabs" method="_on_psa_option_button_item_selected"]
+[connection signal="toggled" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox/UVIndexCheckButton" to="MarginContainer/MainTabs" method="_on_uv_index_check_button_toggled"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox/LanguageOptionButton" to="MarginContainer/MainTabs" method="_on_language_option_button_item_selected"]
+[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/ResetHBox/ResetButton" to="MarginContainer/MainTabs" method="_on_reset_button_button_up"]

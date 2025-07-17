@@ -1,0 +1,134 @@
+[gd_scene load_steps=6 format=3 uid="uid://jol5syilt2lv"]
+
+[ext_resource type="Script" uid="uid://6vl36d6pwunj" path="res://scripts/circle_layer.gd" id="1_x0wyp"]
+[ext_resource type="Theme" uid="uid://dpwgmkatsqow3" path="res://themes/menu.tres" id="3_an3ls"]
+[ext_resource type="Script" uid="uid://qhbofi7l4yfl" path="res://scripts/line_edit.gd" id="3_e4wb5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_unval"]
+line_spacing = 0.0
+font_size = 10
+font_color = Color(0.415686, 1, 1, 1)
+outline_size = 2
+outline_color = Color(0.705882, 1, 1, 0.682353)
+shadow_size = 0
+shadow_color = Color(0.780392, 1, 1, 0.345098)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wd6pd"]
+
+[node name="CircleLayer" type="CanvasLayer"]
+script = ExtResource("1_x0wyp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="BodyColor" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.5)
+
+[node name="MainVBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="BarrierMargin" type="MarginContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 1
+
+[node name="GuardCountLabel" type="Label" parent="MarginContainer/MainVBox/BarrierMargin"]
+layout_mode = 2
+mouse_filter = 1
+text = "How Many Guards?"
+label_settings = SubResource("LabelSettings_unval")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="CircleMargin" type="MarginContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Circle" type="Polygon2D" parent="MarginContainer/MainVBox/CircleMargin"]
+position = Vector2(0, 4)
+
+[node name="TextMargin" type="MarginContainer" parent="MarginContainer/MainVBox/CircleMargin"]
+layout_mode = 2
+theme_override_constants/margin_top = 60
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainVBox/CircleMargin/TextMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextEditVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LineEditMargin" type="MarginContainer" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+placeholder_text = "Enter a #..."
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+script = ExtResource("3_e4wb5")
+
+[node name="NextButtonMargin" type="MarginContainer" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="NextButton" type="Button" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/NextButtonMargin"]
+layout_mode = 2
+theme = ExtResource("3_an3ls")
+text = "Next"
+
+[node name="MaxGuardsLabel" type="Label" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 0.309804, 0, 0.772549)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 3
+text = "Liar! There's not THAT many guards..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MinGuardsLabel" type="Label" parent="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.606965, 0.539294, 3.85046e-07, 1)
+theme_override_colors/font_outline_color = Color(0.606348, 0.612268, 0, 0.772549)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 3
+text = "No way! There's not THAT few guards..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelGroup" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wd6pd")
+
+[connection signal="text_changed" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_text_changed"]
+[connection signal="text_submitted" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_text_submitted"]
+[connection signal="button_up" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/NextButtonMargin/NextButton" to="." method="_on_next_button_button_up"]
+[connection signal="button_up" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/NextButtonMargin/NextButton" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_next_button_button_up"]

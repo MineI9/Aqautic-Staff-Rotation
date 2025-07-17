@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://wtmkqwr8f6wh"]
+
+[ext_resource type="Shader" uid="uid://ceyejapfmsoq3" path="res://shaders/water.gdshader" id="1_tfgla"]
+
+[sub_resource type="Gradient" id="Gradient_7ye5n"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.201149, 0.425287, 0.741379, 1)
+colors = PackedColorArray(0, 0.235048, 0.406927, 1, 0.221561, 0.540348, 0.973093, 1, 0.103397, 0.655569, 0.886231, 1, 0.637012, 0.935037, 0.995072, 1, 0.301961, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ter7x"]
+gradient = SubResource("Gradient_7ye5n")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bdk6y"]
+frequency = 0.0779
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 10.0
+domain_warp_frequency = 0.005
+domain_warp_fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tfgla"]
+width = 90
+height = 160
+seamless = true
+bump_strength = 0.8
+noise = SubResource("FastNoiseLite_bdk6y")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7ye5n"]
+width = 90
+height = 160
+seamless = true
+bump_strength = 0.8
+noise = SubResource("FastNoiseLite_bdk6y")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bg1j3"]
+width = 90
+height = 160
+seamless = true
+bump_strength = 0.8
+noise = SubResource("FastNoiseLite_bdk6y")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5supt"]
+width = 90
+height = 160
+seamless = true
+bump_strength = 0.8
+noise = SubResource("FastNoiseLite_bdk6y")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5supt"]
+shader = ExtResource("1_tfgla")
+shader_parameter/noise1 = SubResource("NoiseTexture2D_tfgla")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_7ye5n")
+shader_parameter/noise3 = SubResource("NoiseTexture2D_bg1j3")
+shader_parameter/noise4 = SubResource("NoiseTexture2D_5supt")
+shader_parameter/scroll1 = Vector2(0.05, 0.05)
+shader_parameter/scroll2 = Vector2(0.05, 0.05)
+shader_parameter/scroll3 = Vector2(-0.01, -0.025)
+shader_parameter/scroll4 = Vector2(-0.01, -0.025)
+shader_parameter/distortion_strength = 0.2
+shader_parameter/tone_color = Color(0.170672, 0.626655, 0.841709, 1)
+shader_parameter/top_color = Color(0.597965, 0.902532, 0.98928, 1)
+shader_parameter/light_start = 0.275
+shader_parameter/light_end = 0.275
+shader_parameter/color_scroll = Vector2(0.5, 0.5)
+shader_parameter/color_start = 0.25
+shader_parameter/color_end = 0.35
+shader_parameter/color_gradient = SubResource("GradientTexture1D_ter7x")
+shader_parameter/gradient_scale = 1.0
+shader_parameter/use_sine_wave = true
+shader_parameter/sine_speed = 1.0
+shader_parameter/speed = 1.0
+shader_parameter/mid_color = Color(0.043176, 0.459502, 0.790183, 1)
+shader_parameter/mid_color_start = 0.25
+shader_parameter/mid_color_end = 0.35
+shader_parameter/color_threshold = 0.3
+shader_parameter/low_color = Color(1.20327e-06, 0, 0.540365, 1)
+shader_parameter/high_color = Color(0.318406, 0.523786, 0.9914, 1)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h4a3f"]
+width = 90
+height = 160
+seamless = true
+bump_strength = 0.8
+noise = SubResource("FastNoiseLite_bdk6y")
+
+[node name="Water2D" type="Node2D"]
+
+[node name="WaterRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_5supt")
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_right = 45.0
+offset_bottom = 160.0
+grow_horizontal = 2
+texture = SubResource("NoiseTexture2D_h4a3f")

@@ -1,0 +1,16 @@
+[app]
+
+current_scene="res://scenes/main_tabs.tscn"
+guard_number=7
+guard_names=["1", "2", "3", "4", "5", "6", "7"]
+current_tab=0
+pool=0
+rotation_interval=0
+guard_psa=0
+language=0
+
+[rotation]
+
+on_stand=0
+down_guards=0
+guard_factor=0

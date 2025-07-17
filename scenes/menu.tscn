@@ -1,0 +1,144 @@
+[gd_scene load_steps=11 format=3 uid="uid://bpq4i2w3oeg38"]
+
+[ext_resource type="Theme" uid="uid://dpwgmkatsqow3" path="res://themes/menu.tres" id="1_con2f"]
+[ext_resource type="Script" uid="uid://ctq8uu3m3k6jl" path="res://scripts/menu.gd" id="1_yqeox"]
+[ext_resource type="PackedScene" uid="uid://jol5syilt2lv" path="res://scenes/circle_layer.tscn" id="2_vjb58"]
+[ext_resource type="Texture2D" uid="uid://db66o3vpc3gjx" path="res://icons/red_raven.png" id="3_4ytvr"]
+[ext_resource type="PackedScene" uid="uid://c4us6vq8qn86n" path="res://scenes/water_control.tscn" id="4_g3eks"]
+[ext_resource type="Shader" uid="uid://dwv0c2u1q7ilj" path="res://shaders/shockwave_effect.gdshader" id="6_v86rl"]
+[ext_resource type="Script" uid="uid://c8p33nlvhwjkk" path="res://scripts/ripple_effect.gd" id="7_13sgg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v86rl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4h3mk"]
+font_color = Color(0.415686, 1, 1, 1)
+outline_size = 2
+outline_color = Color(0.705882, 1, 1, 0.682353)
+shadow_size = 0
+shadow_color = Color(0.780392, 1, 1, 0.345098)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6lef"]
+shader = ExtResource("6_v86rl")
+shader_parameter/center = Vector2(0, 0)
+shader_parameter/force = 0.025
+shader_parameter/size = 0.517
+shader_parameter/thickness = 0.05
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_con2f")
+script = ExtResource("1_yqeox")
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="UserCreditLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 15.0
+offset_right = 28.0
+offset_bottom = 38.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.198437, 0.564925, 1)
+theme_override_font_sizes/font_size = 6
+theme_override_styles/normal = SubResource("StyleBoxEmpty_v86rl")
+text = "@Kriefer"
+metadata/_edit_use_anchors_ = true
+
+[node name="LogoTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 45.0
+offset_right = -6.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4ytvr")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="WaterControl" parent="." instance=ExtResource("4_g3eks")]
+layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="BodyColor" type="ColorRect" parent="MenuLayer/MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="StartVBox" type="VBoxContainer" parent="MenuLayer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MenuLayer/MarginContainer/StartVBox"]
+layout_mode = 2
+text = "Pool Positions"
+label_settings = SubResource("LabelSettings_4h3mk")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BarrierMargin" type="MarginContainer" parent="MenuLayer/MarginContainer/StartVBox"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="MenuLayer/MarginContainer/StartVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Start "
+
+[node name="QuitButton" type="Button" parent="MenuLayer/MarginContainer/StartVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Quit "
+
+[node name="CircleLayer" parent="." instance=ExtResource("2_vjb58")]
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RippleEffect" type="ColorRect" parent="CanvasLayer"]
+z_index = 2
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_i6lef")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("7_13sgg")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="button_up" from="MenuLayer/MarginContainer/StartVBox/PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="button_up" from="MenuLayer/MarginContainer/StartVBox/QuitButton" to="." method="_on_quit_button_button_up"]

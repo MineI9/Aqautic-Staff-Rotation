@@ -1,0 +1,259 @@
+[gd_scene load_steps=19 format=3 uid="uid://jol5syilt2lv"]
+
+[ext_resource type="Script" uid="uid://6vl36d6pwunj" path="res://scripts/circle_layer.gd" id="1_x0wyp"]
+[ext_resource type="Theme" uid="uid://dpwgmkatsqow3" path="res://themes/menu.tres" id="3_an3ls"]
+[ext_resource type="Script" uid="uid://qhbofi7l4yfl" path="res://scripts/line_edit.gd" id="3_e4wb5"]
+[ext_resource type="Script" uid="uid://hwlthswbm2kp" path="res://scripts/main_tabs.gd" id="4_e4wb5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_unval"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_unval"]
+font_color = Color(0.415686, 1, 1, 1)
+outline_size = 2
+outline_color = Color(0.705882, 1, 1, 0.682353)
+shadow_size = 0
+shadow_color = Color(0.780392, 1, 1, 0.345098)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1y1k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_an3ls"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e4wb5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wd6pd"]
+
+[sub_resource type="Theme" id="Theme_an3ls"]
+TabBar/font_sizes/font_size = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ifln8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wd6pd"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifln8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e4wb5"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 2
+border_color = Color(0.415686, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qc43v"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+border_width_top = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwl46"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nwl46"]
+
+[node name="CircleLayer" type="CanvasLayer"]
+script = ExtResource("1_x0wyp")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 20.0
+offset_right = 45.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_unval")
+
+[node name="Label" type="Label" parent="PanelContainer"]
+layout_mode = 2
+text = "How Many Guards?"
+label_settings = SubResource("LabelSettings_unval")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.5
+offset_top = 70.0
+offset_right = 47.5
+offset_bottom = 98.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_d1y1k")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 20
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+placeholder_text = "Enter a #..."
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+script = ExtResource("3_e4wb5")
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 100.0
+offset_right = 45.0
+offset_bottom = 140.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_an3ls")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 20
+
+[node name="NextButton" type="Button" parent="PanelContainer3/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("3_an3ls")
+text = "Next"
+
+[node name="PanelContainer4" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 100.0
+offset_right = 45.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_e4wb5")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer4/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 0.309804, 0, 0.772549)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 4
+text = "Liar! There's not THAT many guards..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 100.0
+offset_right = 45.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_e4wb5")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer5"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer5/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.606965, 0.539294, 3.85046e-07, 1)
+theme_override_colors/font_outline_color = Color(0.606348, 0.612268, 0, 0.772549)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 4
+text = "No way! There's not THAT few guards..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CircleDiagram" type="CenterContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_right = 45.0
+offset_bottom = 90.0
+grow_horizontal = 2
+
+[node name="Circle" type="Polygon2D" parent="CircleDiagram"]
+
+[node name="LabelGroup" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_right = 45.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wd6pd")
+
+[node name="MainTabs" type="TabContainer" parent="."]
+z_index = 1
+y_sort_enabled = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 90.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme = SubResource("Theme_an3ls")
+theme_override_colors/font_selected_color = Color(0.415686, 1, 1, 1)
+theme_override_font_sizes/font_size = 9
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_ifln8")
+theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_wd6pd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ifln8")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_e4wb5")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_qc43v")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_nwl46")
+tab_alignment = 1
+current_tab = 0
+clip_tabs = false
+tab_focus_mode = 1
+script = ExtResource("4_e4wb5")
+
+[node name="Circle" type="PanelContainer" parent="MainTabs"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nwl46")
+metadata/_tab_index = 0
+
+[node name="CircleMain" type="Polygon2D" parent="MainTabs/Circle"]
+y_sort_enabled = true
+
+[node name="Pool" type="PanelContainer" parent="MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Log" type="PanelContainer" parent="MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Settings" type="PanelContainer" parent="MainTabs"]
+visible = false
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+metadata/_tab_index = 3
+
+[connection signal="visibility_changed" from="PanelContainer2" to="PanelContainer2/MarginContainer/LineEdit" method="_on_panel_container_2_visibility_changed"]
+[connection signal="text_changed" from="PanelContainer2/MarginContainer/LineEdit" to="PanelContainer2/MarginContainer/LineEdit" method="_on_text_changed"]
+[connection signal="text_submitted" from="PanelContainer2/MarginContainer/LineEdit" to="PanelContainer2/MarginContainer/LineEdit" method="_on_text_submitted"]
+[connection signal="button_up" from="PanelContainer3/MarginContainer/NextButton" to="." method="_on_next_button_button_up"]
+[connection signal="button_up" from="PanelContainer3/MarginContainer/NextButton" to="PanelContainer2/MarginContainer/LineEdit" method="_on_next_button_button_up"]
