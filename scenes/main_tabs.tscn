@@ -1,12 +1,29 @@
-[gd_scene load_steps=10 format=3 uid="uid://mbdf0iq4016c"]
+[gd_scene load_steps=15 format=3 uid="uid://mbdf0iq4016c"]
 
 [ext_resource type="PackedScene" uid="uid://c4us6vq8qn86n" path="res://scenes/water_control.tscn" id="1_2hdbd"]
 [ext_resource type="Script" uid="uid://hwlthswbm2kp" path="res://scripts/main_tabs.gd" id="1_22m4x"]
 [ext_resource type="Theme" uid="uid://dpwgmkatsqow3" path="res://themes/menu.tres" id="1_qln7f"]
 [ext_resource type="Texture2D" uid="uid://db66o3vpc3gjx" path="res://icons/red_raven.png" id="2_snkyo"]
 [ext_resource type="Texture2D" uid="uid://j766csorhlqc" path="res://icons/pools/san_pedro/san_pedro.png" id="3_5pu4f"]
+[ext_resource type="Shader" uid="uid://cl37tle77xpb0" path="res://shaders/warp_speed.gdshader" id="5_qobkr"]
+[ext_resource type="Texture2D" uid="uid://37jwibevaeko" path="res://icons/cycle_bar_over.png" id="7_clqeh"]
 [ext_resource type="Script" uid="uid://c8p33nlvhwjkk" path="res://scripts/ripple_effect.gd" id="7_qobkr"]
 [ext_resource type="Shader" uid="uid://dwv0c2u1q7ilj" path="res://shaders/shockwave_effect.gdshader" id="7_up80u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_clqeh"]
+shader = ExtResource("5_qobkr")
+shader_parameter/color = Color(0.381, 0.668, 0.831, 1)
+shader_parameter/speed = 0.5
+shader_parameter/density = 200.0
+shader_parameter/compression = 0.15
+shader_parameter/trail_size = 10.0
+shader_parameter/brightness = 5.0
+shader_parameter/center_size = 0.1
+shader_parameter/center_edge = 0.05
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vm0v5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_74j1r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dt84h"]
 
@@ -95,6 +112,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="CircleOutline" type="Polygon2D" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
+material = SubResource("ShaderMaterial_clqeh")
 
 [node name="CircleMain" type="Polygon2D" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
 position = Vector2(0, 120)
@@ -144,6 +162,19 @@ horizontal_alignment = 1
 [node name="UpTimeNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/UpTimeHBox"]
 layout_mode = 2
 
+[node name="StatsPSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="StatsPSALabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0, 1, 1)
+text = "PSA Guard Time"
+horizontal_alignment = 1
+
+[node name="StatsPSANumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
+layout_mode = 2
+
 [node name="DownTimeHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
 layout_mode = 2
 
@@ -155,19 +186,6 @@ text = "Down Time"
 horizontal_alignment = 1
 
 [node name="DownTimeNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/DownTimeHBox"]
-layout_mode = 2
-
-[node name="StatsPSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
-layout_mode = 2
-
-[node name="StatsPSALabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0, 1, 1)
-text = "Guards As PSA"
-horizontal_alignment = 1
-
-[node name="StatsPSANumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox"]
 layout_mode = 2
 
 [node name="Pool" type="PanelContainer" parent="MarginContainer/MainTabs"]
@@ -203,7 +221,6 @@ expand_mode = 5
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-horizontal_scroll_mode = 0
 
 [node name="PositionsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Pool/PoolMargin/PoolVBox/ScrollContainer"]
 layout_mode = 2
@@ -220,6 +237,52 @@ y_sort_enabled = true
 layout_mode = 2
 metadata/_tab_index = 2
 
+[node name="LogMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Log"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainTabs/Log/LogMargin"]
+layout_mode = 2
+
+[node name="LogVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="NextShiftHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox"]
+layout_mode = 2
+
+[node name="NextShiftTextureProgressBar" type="TextureProgressBar" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox"]
+layout_mode = 2
+texture_under = SubResource("PlaceholderTexture2D_vm0v5")
+texture_over = ExtResource("7_clqeh")
+
+[node name="NextShiftLabel" type="Label" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox/NextShiftTextureProgressBar"]
+layout_mode = 2
+offset_right = 152.0
+offset_bottom = 17.0
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_74j1r")
+text = "Time until next shift: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox"]
+layout_mode = 2
+
+[node name="TestTextureRect" type="TextureRect" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="Settings" type="PanelContainer" parent="MarginContainer/MainTabs"]
 visible = false
 z_index = 1
@@ -234,117 +297,162 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="SettingsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin"]
 layout_mode = 2
 
-[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="SettingsVBox" type="VBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 theme_override_constants/margin_top = 10
 
-[node name="RestartHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="RestartHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 
-[node name="RestartLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox"]
+[node name="RestartLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RestartHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Restart"
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox"]
+[node name="RestartButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RestartHBox"]
 layout_mode = 2
-text = "Confirm"
+text = " Confirm "
 
-[node name="PoolHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RestartHBox"]
 layout_mode = 2
 
-[node name="PoolLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox"]
+[node name="ForceCycleHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="ForceCycleLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Force Next Cycle"
+horizontal_alignment = 1
+
+[node name="ForceCycleButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox"]
+layout_mode = 2
+text = " Confirm "
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox"]
+layout_mode = 2
+
+[node name="PoolHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="PoolLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PoolHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Pool"
 horizontal_alignment = 1
 
-[node name="PoolOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox"]
+[node name="PoolOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PoolHBox"]
 layout_mode = 2
 item_count = 2
-popup/item_0/text = "San Pedro"
+popup/item_0/text = " San Pedro "
 popup/item_0/id = 0
-popup/item_1/text = "LBJ"
+popup/item_1/text = " LBJ "
 popup/item_1/id = 1
 
-[node name="IntervalHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PoolHBox"]
 layout_mode = 2
 
-[node name="IntervalLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox"]
+[node name="IntervalHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="IntervalLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/IntervalHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Rotation Interval"
 horizontal_alignment = 1
 
-[node name="IntervalOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox"]
+[node name="IntervalOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/IntervalHBox"]
 layout_mode = 2
 item_count = 2
-popup/item_0/text = "15"
+popup/item_0/text = " 15 "
 popup/item_0/id = 0
-popup/item_1/text = "20"
+popup/item_1/text = " 20 "
 popup/item_1/id = 1
 
-[node name="PSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/IntervalHBox"]
 layout_mode = 2
 
-[node name="PSALabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox"]
+[node name="PSAHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="PSALabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PSAHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Guard PSA Count"
 horizontal_alignment = 1
 
-[node name="PSAOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox"]
+[node name="PSAOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PSAHBox"]
 layout_mode = 2
 item_count = 3
-popup/item_0/text = "0"
+popup/item_0/text = " 0 "
 popup/item_0/id = 0
-popup/item_1/text = "1"
+popup/item_1/text = " 1 "
 popup/item_1/id = 1
-popup/item_2/text = "2"
+popup/item_2/text = " 2 "
 popup/item_2/id = 2
 
-[node name="UVIndexHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PSAHBox"]
 layout_mode = 2
 
-[node name="UVIndexLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox"]
+[node name="UVIndexHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="UVIndexLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/UVIndexHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "UV Index > 100 ?"
 horizontal_alignment = 1
 
-[node name="UVIndexCheckButton" type="CheckButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox"]
+[node name="UVIndexCheckButton" type="CheckButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/UVIndexHBox"]
 layout_mode = 2
 
-[node name="LanguageHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/UVIndexHBox"]
 layout_mode = 2
 
-[node name="LanguageLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox"]
+[node name="LanguageHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/LanguageHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Language"
 horizontal_alignment = 1
 
-[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox"]
+[node name="LanguageOptionButton" type="OptionButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/LanguageHBox"]
 layout_mode = 2
 item_count = 2
-popup/item_0/text = "English"
+popup/item_0/text = " English "
 popup/item_0/id = 0
-popup/item_1/text = "Español"
+popup/item_1/text = " Español "
 popup/item_1/id = 1
 
-[node name="ResetHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/LanguageHBox"]
 layout_mode = 2
 
-[node name="ResetButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/ResetHBox"]
+[node name="ResetHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ResetHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 4
+
+[node name="ResetButton" type="Button" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ResetHBox/PlaceholderMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Reset"
 
-[node name="ReloadWarningLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox"]
+[node name="ReloadWarningLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dt84h")
@@ -368,10 +476,11 @@ script = ExtResource("7_qobkr")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="tab_changed" from="MarginContainer/MainTabs" to="MarginContainer/MainTabs" method="_on_tab_changed"]
-[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/RestartHBox/RestartButton" to="MarginContainer/MainTabs" method="_on_restart_button_button_up"]
-[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PoolHBox/PoolOptionButton" to="MarginContainer/MainTabs" method="_on_pool_option_button_item_selected"]
-[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/IntervalHBox/IntervalOptionButton" to="MarginContainer/MainTabs" method="_on_interval_option_button_item_selected"]
-[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/PSAHBox/PSAOptionButton" to="MarginContainer/MainTabs" method="_on_psa_option_button_item_selected"]
-[connection signal="toggled" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/UVIndexHBox/UVIndexCheckButton" to="MarginContainer/MainTabs" method="_on_uv_index_check_button_toggled"]
-[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/LanguageHBox/LanguageOptionButton" to="MarginContainer/MainTabs" method="_on_language_option_button_item_selected"]
-[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/SettingsVBox/ResetHBox/ResetButton" to="MarginContainer/MainTabs" method="_on_reset_button_button_up"]
+[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RestartHBox/RestartButton" to="MarginContainer/MainTabs" method="_on_restart_button_button_up"]
+[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox/ForceCycleButton" to="MarginContainer/MainTabs" method="_on_force_cycle_button_button_up"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PoolHBox/PoolOptionButton" to="MarginContainer/MainTabs" method="_on_pool_option_button_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/IntervalHBox/IntervalOptionButton" to="MarginContainer/MainTabs" method="_on_interval_option_button_item_selected"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PSAHBox/PSAOptionButton" to="MarginContainer/MainTabs" method="_on_psa_option_button_item_selected"]
+[connection signal="toggled" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/UVIndexHBox/UVIndexCheckButton" to="MarginContainer/MainTabs" method="_on_uv_index_check_button_toggled"]
+[connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/LanguageHBox/LanguageOptionButton" to="MarginContainer/MainTabs" method="_on_language_option_button_item_selected"]
+[connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ResetHBox/PlaceholderMargin/ResetButton" to="MarginContainer/MainTabs" method="_on_reset_button_button_up"]

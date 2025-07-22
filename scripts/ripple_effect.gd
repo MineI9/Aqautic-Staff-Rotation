@@ -34,9 +34,9 @@ func start_ripple(position):
 	#var uv_pos = position / Vector2(get_viewport().size)
 	var uv_pos = position / Vector2(get_global_rect().size)
 	material.set_shader_parameter("center", uv_pos)
-	print(position)
-	print(Vector2(get_viewport().size))
-	print(uv_pos)
+	#print(position)
+	#print(Vector2(get_viewport().size))
+	#print(uv_pos)
 	material.set_shader_parameter("size", 0.0)
 	material.set_shader_parameter("thickness", max_thickness)
 	is_ripple_active = true
