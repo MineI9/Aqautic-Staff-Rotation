@@ -10,7 +10,9 @@ uniform float center_size: hint_range(0.0, 1.0, 0.01) = 0.1;
 uniform float center_edge: hint_range(0.0, 1.0, 0.01) = 0.05;
 
 void fragment() {
-	vec2 uv = vec2(SCREEN_UV.x - 0.5, SCREEN_UV.y - 0.375);
+	vec2 uv = vec2(SCREEN_UV.x - 0.5, SCREEN_UV.y - 0.37);
+	float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
+	uv.x *= 1.0 / ratio;
 	float time = TIME * speed;
 	float circle = smoothstep(center_size - center_edge, center_size, length(uv));
 	float dist = length(uv);

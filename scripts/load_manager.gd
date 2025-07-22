@@ -121,6 +121,17 @@ func get_uv_index() -> bool:
 	var _err = config.load("user://app_config.cfg")
 	return config.get_value("app", "uv_index", false)
 
+func save_rotation_lock(flag: bool) -> void:
+	var config = ConfigFile.new()
+	var _err = config.load("user://app_config.cfg")
+	config.set_value("app", "rotation_lock", flag)
+	config.save("user://app_config.cfg")
+
+func get_rotation_lock() -> bool:
+	var config = ConfigFile.new()
+	var _err = config.load("user://app_config.cfg")
+	return config.get_value("app", "rotation_lock", false)
+
 func save_language(lang: int) -> void:
 	var config = ConfigFile.new()
 	var _err = config.load("user://app_config.cfg")

@@ -14,7 +14,6 @@ config/name="AquaticStaffRotation"
 run/main_scene="uid://bpq4i2w3oeg38"
 config/features=PackedStringArray("4.4", "Mobile")
 boot_splash/bg_color=Color(0.165656, 0.165656, 0.165656, 1)
-boot_splash/image="uid://db66o3vpc3gjx"
 config/icon="uid://lj0iu4ftkmx"
 
 [autoload]

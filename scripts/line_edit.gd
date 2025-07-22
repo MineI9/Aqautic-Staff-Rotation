@@ -121,7 +121,7 @@ func _on_next_button_button_up() -> void:
 	LoadManager.save_guard_names(guard_list)
 	LoadManager.save_current_tab(0)
 	LoadManager.save_time()
-	LoadManager.save_time_break_hours(["4", "6"])
+	LoadManager.save_time_break_hours(["16", "18"])
 	print("Loading completed. Changing scenes to main_tabs.tscn!")
 	#LoadManager.is_menu_passed(true)
 	get_tree().change_scene_to_file("res://scenes/main_tabs.tscn")

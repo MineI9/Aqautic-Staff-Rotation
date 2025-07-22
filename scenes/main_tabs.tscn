@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://mbdf0iq4016c"]
+[gd_scene load_steps=18 format=3 uid="uid://mbdf0iq4016c"]
 
 [ext_resource type="PackedScene" uid="uid://c4us6vq8qn86n" path="res://scenes/water_control.tscn" id="1_2hdbd"]
 [ext_resource type="Script" uid="uid://hwlthswbm2kp" path="res://scripts/main_tabs.gd" id="1_22m4x"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://db66o3vpc3gjx" path="res://icons/red_raven.png" id="2_snkyo"]
 [ext_resource type="Texture2D" uid="uid://j766csorhlqc" path="res://icons/pools/san_pedro/san_pedro.png" id="3_5pu4f"]
 [ext_resource type="Shader" uid="uid://cl37tle77xpb0" path="res://shaders/warp_speed.gdshader" id="5_qobkr"]
+[ext_resource type="Shader" uid="uid://c4q8tewgihila" path="res://shaders/radial_load.gdshader" id="6_vm0v5"]
+[ext_resource type="Texture2D" uid="uid://drs2vddkthpdg" path="res://icons/lock.png" id="7_74j1r"]
 [ext_resource type="Texture2D" uid="uid://37jwibevaeko" path="res://icons/cycle_bar_over.png" id="7_clqeh"]
 [ext_resource type="Script" uid="uid://c8p33nlvhwjkk" path="res://scripts/ripple_effect.gd" id="7_qobkr"]
 [ext_resource type="Shader" uid="uid://dwv0c2u1q7ilj" path="res://shaders/shockwave_effect.gdshader" id="7_up80u"]
@@ -20,6 +22,11 @@ shader_parameter/trail_size = 10.0
 shader_parameter/brightness = 5.0
 shader_parameter/center_size = 0.1
 shader_parameter/center_edge = 0.05
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_74j1r"]
+shader = ExtResource("6_vm0v5")
+shader_parameter/percentage = 0.163
+shader_parameter/effect_color = Color(0.416, 1, 1, 1)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vm0v5"]
 
@@ -115,7 +122,9 @@ theme_override_constants/margin_bottom = 10
 material = SubResource("ShaderMaterial_clqeh")
 
 [node name="CircleMain" type="Polygon2D" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
-position = Vector2(0, 120)
+material = SubResource("ShaderMaterial_74j1r")
+position = Vector2(157.5, 134.417)
+uv = PackedVector2Array(-73, -135, 71, -42, -28, 50, -134, 58, -202, -12)
 
 [node name="StatsMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin"]
 layout_mode = 2
@@ -132,6 +141,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="OverviewLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+visible = false
 layout_mode = 2
 text = "Stats Overview"
 horizontal_alignment = 1
@@ -187,6 +197,23 @@ horizontal_alignment = 1
 
 [node name="DownTimeNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/DownTimeHBox"]
 layout_mode = 2
+
+[node name="RateHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="RateLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/RateHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Guard Rotation Rate"
+horizontal_alignment = 1
+
+[node name="RateNumberLabel" type="Label" parent="MarginContainer/MainTabs/Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/RateHBox"]
+layout_mode = 2
+
+[node name="LockImage" type="Sprite2D" parent="MarginContainer/MainTabs/Circle"]
+position = Vector2(88, 89)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("7_74j1r")
 
 [node name="Pool" type="PanelContainer" parent="MarginContainer/MainTabs"]
 visible = false
@@ -278,10 +305,17 @@ vertical_alignment = 1
 [node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox"]
 layout_mode = 2
 
-[node name="TestTextureRect" type="TextureRect" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox"]
-visible = false
+[node name="LastLogHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox"]
 layout_mode = 2
-size_flags_vertical = 3
+
+[node name="LastLogLabel" type="Label" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/LastLogHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Last log time: "
+horizontal_alignment = 1
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Log/LogMargin/ScrollContainer/LogVBox/LastLogHBox"]
+layout_mode = 2
 
 [node name="Settings" type="PanelContainer" parent="MarginContainer/MainTabs"]
 visible = false
@@ -339,6 +373,21 @@ layout_mode = 2
 text = " Confirm "
 
 [node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox"]
+layout_mode = 2
+
+[node name="RotationLockHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
+layout_mode = 2
+
+[node name="RotationLockLabel" type="Label" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RotationLockHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rotation Lock -  ( HOLD )"
+horizontal_alignment = 1
+
+[node name="RotationLockCheckButton" type="CheckButton" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RotationLockHBox"]
+layout_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RotationLockHBox"]
 layout_mode = 2
 
 [node name="PoolHBox" type="HBoxContainer" parent="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox"]
@@ -478,6 +527,7 @@ metadata/_edit_use_anchors_ = true
 [connection signal="tab_changed" from="MarginContainer/MainTabs" to="MarginContainer/MainTabs" method="_on_tab_changed"]
 [connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RestartHBox/RestartButton" to="MarginContainer/MainTabs" method="_on_restart_button_button_up"]
 [connection signal="button_up" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox/ForceCycleButton" to="MarginContainer/MainTabs" method="_on_force_cycle_button_button_up"]
+[connection signal="toggled" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/RotationLockHBox/RotationLockCheckButton" to="MarginContainer/MainTabs" method="_on_rotation_lock_check_button_toggled"]
 [connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PoolHBox/PoolOptionButton" to="MarginContainer/MainTabs" method="_on_pool_option_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/IntervalHBox/IntervalOptionButton" to="MarginContainer/MainTabs" method="_on_interval_option_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/MainTabs/Settings/SettingsMargin/ScrollContainer/SettingsVBox/PSAHBox/PSAOptionButton" to="MarginContainer/MainTabs" method="_on_psa_option_button_item_selected"]

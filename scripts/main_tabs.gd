@@ -14,11 +14,13 @@ extends TabContainer
 @onready var reset_button: Button = $Settings/SettingsMargin/ScrollContainer/SettingsVBox/ResetHBox/PlaceholderMargin/ResetButton
 @onready var uv_index_check_button: CheckButton = $Settings/SettingsMargin/ScrollContainer/SettingsVBox/UVIndexHBox/UVIndexCheckButton
 @onready var force_cycle_button: Button = $Settings/SettingsMargin/ScrollContainer/SettingsVBox/ForceCycleHBox/ForceCycleButton
+@onready var rotation_lock_check_button: CheckButton = $Settings/SettingsMargin/ScrollContainer/SettingsVBox/RotationLockHBox/RotationLockCheckButton
 
 @onready var on_stand_number_label: Label = $Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/OnStandHBox/OnStandNumberLabel
 @onready var up_time_number_label: Label = $Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/UpTimeHBox/UpTimeNumberLabel
 @onready var down_time_number_label: Label = $Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/DownTimeHBox/DownTimeNumberLabel
 @onready var stats_psa_number_label: Label = $Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/StatsPSAHBox/StatsPSANumberLabel
+@onready var rate_number_label: Label = $Circle/CircleMargin/StatsMargin/ScrollContainer/StatsVBox/RateHBox/RateNumberLabel
 
 @onready var pool_label: Label = $Pool/PoolMargin/PoolVBox/PoolLabel
 @onready var pool_display: TextureRect = $Pool/PoolMargin/PoolVBox/PoolDisplay
@@ -26,7 +28,10 @@ extends TabContainer
 
 @onready var next_shift_label: Label = $Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox/NextShiftTextureProgressBar/NextShiftLabel
 @onready var next_shift_texture_progress_bar: TextureProgressBar = $Log/LogMargin/ScrollContainer/LogVBox/NextShiftHBox/NextShiftTextureProgressBar
-@onready var test_texture_rect: TextureRect = $Log/LogMargin/ScrollContainer/LogVBox/TestTextureRect
+#@onready var test_texture_rect: TextureRect = $Log/LogMargin/ScrollContainer/LogVBox/TestTextureRect
+@onready var last_log_label: Label = $Log/LogMargin/ScrollContainer/LogVBox/LastLogHBox/LastLogLabel
+
+@onready var lock_image: Sprite2D = $Circle/LockImage
 
 var gradient = Gradient.new()
 var gradient_texture = GradientTexture1D.new()
@@ -35,7 +40,7 @@ var interval_for_calculations: int
 #@export var time_tracker: TimeTracker
 
 var rotation_duration: float = 0.5  # Seconds per full rotation
-var circle_offset: Vector2 = Vector2(87.0, 97.0)
+var circle_offset: Vector2 = Vector2(88.0, 97.0)
 #var is_rotating: bool = false
 var target_rotation: float = 0.0
 var active_tween: Tween = null
@@ -52,10 +57,10 @@ var guard_rotate_factor: int = 1
 
 #@onready var IntervalSelection : int = LoadManager.get_rotation_interval()
 
-func _on_cycles_required(cycle_count: int):
-	for i in range(cycle_count):
-		update_cycle()
-		print("I received request " + str(i + 1) + " to update a cycle!")
+#func _on_cycles_required(cycle_count: int):
+	#for i in range(cycle_count):
+		#update_cycle()
+		#print("I received request " + str(i + 1) + " to update a cycle!")
 
 func _ready() -> void:
 	# Add colors with explicit offsets
@@ -96,6 +101,8 @@ func _ready() -> void:
 	psa_option_button.select(psa_selection)
 	language_option_button.select(LoadManager.get_language())
 	uv_index_check_button.button_pressed = LoadManager.get_uv_index()
+	rotation_lock_check_button.button_pressed = LoadManager.get_rotation_lock()
+	lock_image.visible = rotation_lock_check_button.button_pressed
 	var stands : int = LoadManager.get_rotation_on_stand()
 	var breaking : int = LoadManager.get_rotation_down_guards()
 	var replace_factor : int = LoadManager.get_rotation_guard_factor()
@@ -200,6 +207,11 @@ func _ready() -> void:
 	var hours: int = LoadManager.get_time_hours()
 	var break_hours: Array = LoadManager.get_time_break_hours()
 	run_cycles(hours, minutes, break_hours)
+	#minutes = minutes - (minutes % (5 * interval_for_calculations + 15))
+	#var minutes_zero: String = ""
+	#if minutes < 10:
+		#minutes_zero = "0"
+	#last_log_label.text = "Last log time: " + str(hours) + ":" + minutes_zero + str(minutes) + " "
 
 func run_cycles(hours: int, minutes: int, break_hours: Array) -> void:
 	var current_minutes: int = Time.get_time_dict_from_system()["minute"]
@@ -215,10 +227,16 @@ func run_cycles(hours: int, minutes: int, break_hours: Array) -> void:
 	print("Current Hours: " + str(current_hours))
 	print("Current Minutes: " + str(current_minutes))
 	var running_index: int = ((60 * current_hours + current_minutes) - (60 * hours + (minutes - (minutes % rotation_value)))) / rotation_value
+	var some_array: Array = LoadManager.get_time_break_hours()
+	for item in some_array:
+		if 60 * int(item) < (60 * current_hours + current_minutes) && 60 * int(item) > (60 * hours + (minutes - (minutes % rotation_value))):
+			running_index -= 1
+			print("Subtracted 1 from the running_index!")
 	print("Time Difference: " + str(((60 * current_hours + current_minutes) - (60 * hours + (minutes - (minutes % rotation_value))))))
 	print("Running Index: " + str(running_index))
 	for i in range(running_index):
-		update_cycle()
+		if !rotation_lock_check_button.button_pressed:
+			update_cycle()
 
 func calculate_pool_tab_labels(names: Array, stands: int, psa_selection: int) -> void:
 	#Big Daddy Stand Count Label Code Up Next!
@@ -290,18 +308,23 @@ func calculate_circle_tab_labels(names: Array, stands: int, breaking: int, repla
 	interval_selection = (interval_selection * 5) + 15
 	on_stand_number_label.text = " " + str(stands) + " "
 	on_stand_number_label.add_theme_color_override("font_color", Color("ffff00"))
-	if (stands + psa_selection) % replace_factor != 0:
-		up_time_number_label.text = " " + str(floori(float(interval_selection) * float(stands) / float(replace_factor))) + " - " + str(ceili(float(interval_selection) * float(stands) / float(replace_factor))) + " "
+	if stands % replace_factor != 0:
+		up_time_number_label.text = " " + str(interval_selection * floori(float(stands) / float(replace_factor))) + " - " + str(interval_selection * ceili(float(stands) / float(replace_factor))) + " "
+		#up_time_number_label.text = " " + str() + " - " + str() + " "
 	else:
-		up_time_number_label.text = " " + str(interval_selection * (stands) / replace_factor) + " "
+		up_time_number_label.text = " " + str(interval_selection * stands / replace_factor) + " "
 	up_time_number_label.add_theme_color_override("font_color", Color("ff0000"))
 	if breaking % replace_factor != 0:
-		down_time_number_label.text = " " + str(floori(float(interval_selection) * float(breaking) / float(replace_factor))) + " - " + str(ceili(float(interval_selection) * float(breaking) / float(replace_factor))) + " "
+		down_time_number_label.text = " " + str(interval_selection * floori(float(breaking) / float(replace_factor))) + " - " + str(interval_selection * ceili(float(breaking) / float(replace_factor))) + " "
 	else:
 		down_time_number_label.text = " " + str(interval_selection * breaking / replace_factor) + " "
 	down_time_number_label.add_theme_color_override("font_color", Color("00ff00"))
-	stats_psa_number_label.text = " " + str(interval_selection * psa_selection) + " "
+	if psa_selection % replace_factor != 0:
+		stats_psa_number_label.text = " " + str(interval_selection * floori(float(psa_selection) / float(replace_factor))) + " - " + str(interval_selection * ceili(float(psa_selection) / float(replace_factor))) + " "
+	else:
+		stats_psa_number_label.text = " " + str(interval_selection * psa_selection / replace_factor) + " "
 	stats_psa_number_label.add_theme_color_override("font_color", Color("ff00ff"))
+	rate_number_label.text = " " + str(replace_factor) + " "
 
 func calculate_rotation_details(names: Array, intervals: int, psas: int) -> void:
 	var on_stand_max : int = 1
@@ -311,27 +334,127 @@ func calculate_rotation_details(names: Array, intervals: int, psas: int) -> void
 	if intervals == 0:
 		on_stand_max = 4
 		if names.size() == 4:
-			guard_rate = 1
-			guards_up = 3 - psas
-			guards_down = 4 - guards_up - psas
+			if psas == 0:
+				guard_rate = 1
+				guards_up = 3
+				guards_down = 1
+			elif psas == 1:
+				guard_rate = 1
+				guards_up = 3
+				guards_down = 0
+			else:
+				guard_rate = 1
+				guards_up = 2
+				guards_down = 0
 		elif names.size() == 5:
-			guard_rate = 1
-			guards_up = 4 - psas
-			guards_down = 5 - guards_up - psas
+			if psas == 0:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 1
+			elif psas == 1:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 0
+			else:
+				guard_rate = 1
+				guards_up = 3
+				guards_down = 0
 		elif names.size() == 6:
-			pass
+			if psas == 0:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 2
+			elif psas == 1:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 1
+			else:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 0
 		elif names.size() == 7:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 5
+				guards_down = 2
+			elif psas == 1:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 2
+			else:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 1
 		elif names.size() == 8:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 6
+				guards_down = 2
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 5
+				guards_down = 2
+			else:
+				guard_rate = 1
+				guards_up = 4
+				guards_down = 2
+				# Or rate 2, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
 		elif names.size() == 9:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 7
+				guards_down = 2
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 6
+				guards_down = 2
+			else:
+				guard_rate = 2
+				guards_up = 5
+				guards_down = 2
 		elif names.size() == 10:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 2
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 7
+				guards_down = 2
+			else:
+				guard_rate = 2
+				guards_up = 6
+				guards_down = 2
 		elif names.size() == 11:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 3
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 2
+			else:
+				guard_rate = 2
+				guards_up = 7
+				guards_down = 2
 		elif names.size() == 12:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 4
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be MAD confusing!)
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 3
+				# Or rate 3, everything else the same (But it would be MAD confusing!)
+			else:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 2
+				# Or rate 3, everything else the same (But it would be MAD confusing!)
 		elif names.size() == 13:
 			pass
 		elif names.size() == 14:
@@ -428,8 +551,19 @@ func _process(_delta: float) -> void:
 		if time_seconds2 == 0:
 			time_minutes2 += rotation_value - 1
 		#print(time_minutes % 15)
-		if next_shift_label.text != "Time until next shift: " + str(rotation_value - time_minutes2 % rotation_value - 1) + ":" + seconds_zero + str(60 - time_seconds) + " ":
-			next_shift_label.text = "Time until next shift: " + str(rotation_value - time_minutes2 % rotation_value - 1) + ":" + seconds_zero + str(60 - time_seconds) + " "
+		var time_hours = Time.get_time_dict_from_system()["hour"]
+		var minutes: int = time_minutes - (time_minutes % (5 * interval_for_calculations + 15))
+		var minutes_zero: String = ""
+		if minutes < 10:
+			minutes_zero = "0"
+		if last_log_label.text != "Last log time: " + str(time_hours) + ":" + minutes_zero + str(minutes) + " ":
+			last_log_label.text = "Last log time: " + str(time_hours) + ":" + minutes_zero + str(minutes) + " "
+		if !rotation_lock_check_button.button_pressed:
+			if next_shift_label.text != "Time until next shift: " + str(rotation_value - time_minutes2 % rotation_value - 1) + ":" + seconds_zero + str(60 - time_seconds) + " ":
+				next_shift_label.text = "Time until next shift: " + str(rotation_value - time_minutes2 % rotation_value - 1) + ":" + seconds_zero + str(60 - time_seconds) + " "
+		else:
+			if next_shift_label.text != "Time until next shift: - ( HOLD ) - ":
+				next_shift_label.text = "Time until next shift: - ( HOLD ) - "
 		if next_shift_texture_progress_bar.value != (60 * (time_minutes % rotation_value)) + (time_seconds2):
 			next_shift_texture_progress_bar.value = (60 * (time_minutes % rotation_value)) + (time_seconds2)
 			#print(next_shift_texture_progress_bar.value)
@@ -438,12 +572,21 @@ func _process(_delta: float) -> void:
 			#print(progress)
 			var new_texture = get_solid_color_progress_texture(progress)
 			next_shift_texture_progress_bar.texture_progress = new_texture
-			test_texture_rect.texture = new_texture
+			#test_texture_rect.texture = new_texture
 			# Run Those Cycles!
 			#print("Minute Side: " + str(rotation_value - time_minutes2 % rotation_value - 1))
 			#print("Second Side: " + str(60 - time_seconds))
 			if (rotation_value - time_minutes2 % rotation_value - 1) + (60 - time_seconds) == 0:
-				update_cycle()
+				var running_index_check: int = 1
+				var some_array: Array = LoadManager.get_time_break_hours()
+				for item in some_array:
+					if int(item) == time_hours && time_minutes == 0:
+						running_index_check -= 1
+						print("Subtracted 1 from the running_index!")
+				print("Running Index Check: " + str(running_index_check))
+				for i in range(running_index_check):
+					if !rotation_lock_check_button.button_pressed:
+						update_cycle()
 			#print("Gradient Colors: ", gradient.colors)
 			#print("Gradient Offsets: ", gradient.offsets)
 			#LoadManager.calculate_cycles_to_run()
@@ -451,6 +594,9 @@ func _process(_delta: float) -> void:
 func get_solid_color_progress_texture(progress: float) -> Texture2D:
 	# Sample color from gradient at current progress (0.0 to 1.0)
 	var color = gradient.sample(progress)
+	circle_main.material.set_shader_parameter("percentage", progress)
+	circle_main.material.set_shader_parameter("effect_color", color)
+	circle_outline.material.set_shader_parameter("color", color)
 	# Create a 1x1 pixel image with the sampled color
 	var image = Image.create(152, 17, false, Image.FORMAT_RGBA8)
 	image.fill(color)
@@ -466,6 +612,15 @@ func update_cycle() -> void:
 		#return  # Prevent overlapping rotations
 	#is_rotating = true
 	LoadManager.save_time()
+	#var minutes: int = Time.get_time_dict_from_system()["minute"]
+	#var hours: int = Time.get_time_dict_from_system()["hour"]
+	#var minutes: int = LoadManager.get_time_minutes()
+	#var hours: int = LoadManager.get_time_hours()
+	#minutes = minutes - (minutes % (5 * interval_for_calculations + 15))
+	#var minutes_zero: String = ""
+	#if minutes < 10:
+		#minutes_zero = "0"
+	#last_log_label.text = "Last log time: " + str(hours) + ":" + minutes_zero + str(minutes) + " "
 	var buddies : Array = LoadManager.get_guard_names()
 	var stands : int = LoadManager.get_rotation_on_stand()
 	var psa_selection : int = LoadManager.get_guard_psa()
@@ -473,8 +628,9 @@ func update_cycle() -> void:
 	print(guard_factor)
 	#var first_item = buddies.pop_front()  # Remove and get first element
 	#buddies.append(first_item)  # Add it to the end
-	var last_item = buddies.pop_back()  # Remove & get the last element
-	buddies.push_front(last_item)       # Insert it at the front
+	for i in range(guard_factor):
+		var last_item = buddies.pop_back()  # Remove & get the last element
+		buddies.push_front(last_item)       # Insert it at the front
 	LoadManager.save_guard_names(buddies)
 	calculate_pool_tab_labels(buddies, stands, psa_selection)
 	#set_process_input(false)
@@ -532,6 +688,8 @@ func _on_restart_button_button_up() -> void:
 	psa_option_button.select(LoadManager.get_guard_psa())
 	language_option_button.select(LoadManager.get_language())
 	uv_index_check_button.button_pressed = LoadManager.get_uv_index()
+	rotation_lock_check_button.button_pressed = LoadManager.get_rotation_lock()
+	lock_image.visible = rotation_lock_check_button.button_pressed
 	var pool : int = LoadManager.get_pool()
 	if pool == 0:
 		pool_label.text = "San Pedro Springs Pool"
@@ -548,6 +706,8 @@ func _on_reset_button_button_up() -> void:
 	psa_option_button.select(LoadManager.get_guard_psa())
 	language_option_button.select(LoadManager.get_language())
 	uv_index_check_button.button_pressed = LoadManager.get_uv_index()
+	rotation_lock_check_button.button_pressed = LoadManager.get_rotation_lock()
+	lock_image.visible = rotation_lock_check_button.button_pressed
 	var pool : int = LoadManager.get_pool()
 	if pool == 0:
 		pool_label.text = "San Pedro Springs Pool"
@@ -598,6 +758,12 @@ func _on_tab_changed(tab: int) -> void:
 
 func _on_uv_index_check_button_toggled(toggled_on: bool) -> void:
 	LoadManager.save_uv_index(toggled_on)
+
+func _on_rotation_lock_check_button_toggled(toggled_on: bool) -> void:
+	LoadManager.save_rotation_lock(toggled_on)
+	lock_image.visible = rotation_lock_check_button.button_pressed
+	if !toggled_on:
+		LoadManager.save_time()
 
 func _on_force_cycle_button_button_up() -> void:
 	force_cycle_button.disabled = true
