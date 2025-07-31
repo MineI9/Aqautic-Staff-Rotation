@@ -255,4 +255,5 @@ func restore_default_values() -> void:
 	config.set_value("app", "guard_psa", 0)
 	config.set_value("app", "language", 0)
 	config.set_value("app", "uv_index", false)
+	config.set_value("app", "rotation_lock", false)
 	config.save("user://app_config.cfg")

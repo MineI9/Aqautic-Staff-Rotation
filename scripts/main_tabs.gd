@@ -444,33 +444,168 @@ func calculate_rotation_details(names: Array, intervals: int, psas: int) -> void
 				guards_up = 8
 				guards_down = 4
 				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
-				# Or rate 3, everything else the same (But it would be MAD confusing!)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
 			elif psas == 1:
 				guard_rate = 2
 				guards_up = 8
 				guards_down = 3
-				# Or rate 3, everything else the same (But it would be MAD confusing!)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
 			else:
 				guard_rate = 2
 				guards_up = 8
 				guards_down = 2
-				# Or rate 3, everything else the same (But it would be MAD confusing!)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
 		elif names.size() == 13:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 5
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 4
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
+			else:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 3
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
 		elif names.size() == 14:
-			pass
+			if psas == 0:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 6
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 2 goes in evenly)
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 5
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 2 goes in evenly)
+			else:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 4
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 3, everything else the same (But it would be MAD confusing!) Also gives some guards only 15 off
 		elif names.size() == 15:
-			pass
+			if psas == 0:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 7
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 2, everything else the same (But it would be a little confusing because 3 goes in evenly)
+			elif psas == 1:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 6
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 2, everything else the same (But it would be a little confusing because 3 goes in evenly)
+			else:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 5
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives guards only 15 off)
+				# Or rate 2, everything else the same (But it would be a little confusing because 3 goes in evenly)
 		elif names.size() == 16:
-			pass
+			if psas == 0:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 8
+				# Or rate 2, everything else the same (For good UV, if guards want 60 off instead of 30 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 4 goes in evenly)
+			elif psas == 1:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 7
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives some guards only 15 off-ish becuse two have 15 at PSA)
+				# Or rate 3, everything else the same (But it would be a little confusing because 2 goes in evenly)
+			else:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 6
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives some guards only 15 off-ish becuse two have 15 at PSA)
+				# Or rate 3, everything else the same (But it would be a little confusing because 2 goes in evenly)
 		elif names.size() == 17:
-			pass
+			if psas == 0:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 9
+				# Or rate 2, everything else the same (For good UV, if guards want 60-75 off instead of 45 off)
+				# Or rate 4, everything else the same (But it would be a little confusing because 1/4 of a group carries over instead of 2/3)
+			elif psas == 1:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 8
+				# Or rate 2, everything else the same (For good UV, normally not good because it gives guards an extremely long period of time, 60 on / 60 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because the up and down guards are both % 4 == 0)
+			else:
+				guard_rate = 2
+				guards_up = 8
+				guards_down = 7
+				# Or rate 4, everything else the same (For bad UV, normally not good because it gives some guards only 15 off-ish becuse two have 15 at PSA)
+				# Or rate 3, everything else the same (But it would be a little confusing because 2 goes into the guards_up evenly)
 		elif names.size() == 18:
-			pass
+			if psas == 0:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 10
+				# Or rate 2, everything else the same (For good UV, if guards want 75 off instead of 45-60 off)
+				# Or rate 4, everything else the same (But it would be a little confusing because 3 goes in evenly)
+			elif psas == 1:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 9
+				# Or rate 2, everything else the same (For good UV, normally not good because it gives guards an extremely long period of time, 60 on / 60-75 off)
+				# Or rate 4, everything else the same (But it would be a little confusing because 3 goes in evenly)
+			else:
+				guard_rate = 3
+				guards_up = 8
+				guards_down = 8
+				# Or rate 2, everything else the same (For bad UV, normally not good because it gives guards an extremely long period of time, 60 on / 60 off)
+				# Or rate 4, everything else the same (But it would be a little confusing because 1 would carry over on an even shift where 2 could)
 		elif names.size() == 19:
-			pass
+			if psas == 0:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 11
+				# Or rate 2, everything else the same (For good UV, if guards want 75-90 off instead of 30-45 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 4 goes in evenly to the guards_up and there would be a 1/3 group carry instead of 3/4)
+			elif psas == 1:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 10
+				# Or rate 2, everything else the same (For good UV, normally not good because it gives guards an extremely long period of time, 60 on / 75 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 4 goes in evenly to the guards_up and there would be a 1/3 group carry instead of 3/4)
+			else:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 9
+				# Or rate 2, everything else the same (For good UV, if guards want 60-75 off instead of 30-45 off)
+				# Or rate 3, everything else the same (But it would be a little confusing because 4 goes in evenly to the guards_up and there would be a 1/3 group carry instead of 3/4)
 		elif names.size() == 20:
-			pass
+			if psas == 0:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 12
+				# Or rate 3, everything else the same (But it doesn't go in evenly to most things, and there would be a group carry-over)
+				# Or rate 5, everything else the same (But it doesn't go in evenly to most things)
+			elif psas == 1:
+				guard_rate = 4
+				guards_up = 8
+				guards_down = 11
+				# Or rate 3, everything else the same (But it doesn't go in evenly to most things, and there would be a group carry-over)
+				# Or rate 5, everything else the same (But it doesn't go in evenly to most things)
+			else:
+				guard_rate = 5
+				guards_up = 8
+				guards_down = 10
+				# Or rate 3, everything else the same (But it doesn't go in evenly to most things, and there would be a group carry-over)
+				# Or rate 4, everything else the same (But it would be a little confusing because 1 would carry over on an even shift where 2 could for psas and break)
 		elif names.size() == 21:
 			pass
 		elif names.size() == 22:
@@ -631,18 +766,61 @@ func update_cycle() -> void:
 	for i in range(guard_factor):
 		var last_item = buddies.pop_back()  # Remove & get the last element
 		buddies.push_front(last_item)       # Insert it at the front
+	if buddies.size() % guard_factor == 0 && guard_factor != 1: # Shift first guard_factor sized group whenever it is perfectly even with the total
+		var first_buddies: Array = []
+		for i in range(guard_factor):
+			first_buddies.append(buddies[i])
+		print("Here's the first buddies after cycling once: " + str(first_buddies))
+		var last_item = first_buddies.pop_back()  # Remove & get the last element
+		first_buddies.push_front(last_item)       # Insert it at the front
+		for i in range(guard_factor):
+			buddies[i] = first_buddies[i]
 	LoadManager.save_guard_names(buddies)
 	calculate_pool_tab_labels(buddies, stands, psa_selection)
-	#set_process_input(false)
-	#circle_main_control.rotation = -circle_main.rotation  # Counter-rotate
-	target_rotation += rad_to_deg(guard_factor * (2 * PI / circle_main.polygon.size()))  # Increment by the rotation interval number of times around the polygon's size
+	if buddies.size() % guard_factor == 0 && guard_factor != 1: # Now counter the label rotation by adjusting the list used back by guard_factor
+		var adjusted_buddies = buddies
+		for i in range(guard_factor):
+			var last_item = adjusted_buddies.pop_front()  # Remove & get the first element
+			adjusted_buddies.append(last_item)            # Insert it at the back
+		calculate_circle_main_labels(adjusted_buddies, guard_factor)
+		#calculate_circle_main_labels(buddies, guard_factor)
+	else:
+		#set_process_input(false)
+		#circle_main_control.rotation = -circle_main.rotation  # Counter-rotate
+		target_rotation += rad_to_deg(guard_factor * (2 * PI / circle_main.polygon.size()))  # Increment by the rotation interval number of times around the polygon's size
+		print("Circle Rotation: " + str(circle_main.rotation_degrees))
+		print("Target Rotation: " + str(target_rotation))
+		if circle_main.rotation_degrees >= 360.0:
+			circle_main.rotation_degrees -= 360.0
+			target_rotation -= 360.0
+			for child in circle_main.get_children():
+				child.rotation_degrees += 360
+		var tween = create_tween().bind_node(circle_main)
+		# Smooth rotation animation
+		tween.set_parallel(true)
+		tween.tween_property(circle_main, "rotation_degrees", target_rotation, rotation_duration)
+		tween.set_trans(Tween.TRANS_LINEAR)
+		tween.set_ease(Tween.EASE_IN_OUT)
+		#tween.tween_method(update_label_positions, 0.0, 1.0, rotation_duration)
+		var label_tween = create_tween()
+		label_tween.set_parallel(true)
+		for child in circle_main.get_children():
+			label_tween.set_trans(Tween.TRANS_LINEAR)
+			label_tween.set_ease(Tween.EASE_IN_OUT)
+			label_tween.tween_property(child, "rotation_degrees", -target_rotation, rotation_duration)
+		force_cycle_button.disabled = false
+
+func spin_even_circle(guard_factor: int) -> void:
+	target_rotation = rad_to_deg(guard_factor * (2 * PI / circle_main.polygon.size()))  # Set to the exact degrees of rotation needed for the first of the polygon's sides
 	print("Circle Rotation: " + str(circle_main.rotation_degrees))
 	print("Target Rotation: " + str(target_rotation))
-	if circle_main.rotation_degrees >= 360.0:
-		circle_main.rotation_degrees -= 360.0
-		target_rotation -= 360.0
-		for child in circle_main.get_children():
-			child.rotation_degrees += 360
+	if circle_main.rotation_degrees >= rad_to_deg(guard_factor * (2 * PI / circle_main.polygon.size())):
+		circle_main.rotation_degrees = 0
+	#if circle_main.rotation_degrees >= 360.0:
+		#circle_main.rotation_degrees -= 360.0
+		#target_rotation -= 360.0
+		#for child in circle_main.get_children():
+			#child.rotation_degrees += 360
 	var tween = create_tween().bind_node(circle_main)
 	# Smooth rotation animation
 	tween.set_parallel(true)
@@ -657,6 +835,32 @@ func update_cycle() -> void:
 		label_tween.set_ease(Tween.EASE_IN_OUT)
 		label_tween.tween_property(child, "rotation_degrees", -target_rotation, rotation_duration)
 	force_cycle_button.disabled = false
+
+func calculate_circle_main_labels(buddies: Array, guard_factor: int) -> void:
+	print("Running the Circle Main label deletion process " + str(circle_main.get_children().size()) + " times!")
+	for i in range(circle_main.get_children().size()):
+		var child = circle_main.get_child(0)
+		circle_main.remove_child(child)
+		child.queue_free()
+		print(i + 1)
+	for name in buddies:
+		var new_label = Label.new()
+		new_label.text = " " + str(name) + " "
+		new_label.add_theme_font_size_override("font_size", 5)
+		new_label.add_theme_color_override("font_color", Color("000000"))
+		var background = StyleBoxFlat.new()
+		background.bg_color = Color("ffff00")  # RGB color (yellow)
+		background.corner_radius_bottom_left = 2
+		background.corner_radius_bottom_right = 2
+		background.corner_radius_top_left = 2
+		background.corner_radius_top_right = 2
+		new_label.add_theme_stylebox_override("normal", background)
+		new_label.scale = Vector2(2.0, 2.0)
+		circle_main.add_child(new_label)
+		new_label.position = circle_main.polygon[buddies.find(name)]
+		new_label.position -= new_label.size * 0.5
+		new_label.pivot_offset += new_label.size * 0.5
+	spin_even_circle(guard_factor)
 
 func apply_shader_to_rotating_labels(rotating_labels: Array, numbered_labels: Array):
 	var viewport = SubViewport.new()
@@ -768,3 +972,8 @@ func _on_rotation_lock_check_button_toggled(toggled_on: bool) -> void:
 func _on_force_cycle_button_button_up() -> void:
 	force_cycle_button.disabled = true
 	update_cycle()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action("Cycle"):
+		if event.is_action_pressed("Cycle"):
+			update_cycle()
