@@ -7,8 +7,6 @@ extends LineEdit
 @onready var circle: Polygon2D = $"../../../../../Circle"
 @onready var label_group: PanelContainer = $"../../../../../../../LabelGroup"
 
-var _hidden_focus_holder = null
-
 var rotation_duration: float = 1.0  # Seconds per full rotation
 var circle_offset: Vector2 = Vector2(90.0, 90.0)
 var is_rotating: bool = false
@@ -23,11 +21,6 @@ var last_cycle_switch: int = -1
 func _ready() -> void:
 	select_all_on_focus = true
 	editable = true
-	# Create an invisible control to help with iOS focus
-	_hidden_focus_holder = Control.new()
-	_hidden_focus_holder.size = Vector2(1, 1)
-	_hidden_focus_holder.position = Vector2(-100, -100) # Off-screen
-	add_child(_hidden_focus_holder)
 
 func _on_text_changed(new_text) -> void:
 	if circle.polygon.size() == 0:
@@ -59,8 +52,6 @@ func _on_text_submitted(new_text: String) -> void:
 			else:
 				editable = false
 				release_focus()
-				if OS.get_name() == "iOS":
-					_hidden_focus_holder.release_focus()
 				if max_guards_label.visible:
 					max_guards_label.visible = false
 				if min_guards_label.visible:
@@ -142,15 +133,8 @@ func _on_next_button_button_up() -> void:
 	# Here will be the break!
 
 func _on_focus_entered() -> void:
-	# iOS focus workaround
-	if OS.get_name() == "iOS":
-		_hidden_focus_holder.grab_focus()
-		await get_tree().process_frame
-		grab_focus()
-	# Regular behavior for other platforms
-	#if OS.has_feature("web"):
-		#OS.execute_javascript("""
-			#setTimeout(function() {
-				#document.querySelector('canvas').focus();
-			#}, 10);
-		#""")
+	# iOS-specific fixes
+	#grab_focus()  # Default behavior first
+	if OS.has_feature('web') and OS.get_name() == "iOS":
+		await get_tree().create_timer(0.15).timeout
+		grab_focus()  # Secondary focus grab for iOS
