@@ -132,9 +132,9 @@ func _on_next_button_button_up() -> void:
 	
 	# Here will be the break!
 
-#func _on_focus_entered() -> void:
+func _on_focus_entered() -> void:
 	# iOS-specific fixes
 	# Default behavior first
-	#if OS.has_feature('web') and OS.get_name() == "iOS":
-		#await get_tree().create_timer(0.15).timeout
-		#grab_focus()  # Secondary focus grab for iOS
+	if OS.has_feature('web') and OS.get_name() == "iOS":
+		await get_tree().create_timer(0.15).timeout
+		grab_focus()  # Secondary focus grab for iOS
