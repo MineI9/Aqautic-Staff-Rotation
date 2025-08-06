@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>${GODOT_PROJECT_NAME}</title>
+    <title>AquaticStaffRotation</title> <!-- Replace with your game name -->
     <style>
         body {
             margin: 0;
@@ -26,26 +26,34 @@
             pointer-events: none;
         }
     </style>
-    ${GODOT_JS_INIT}
+    <!-- Godot will automatically inject its scripts here -->
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <input type="text" id="hidden-input">
-    
+    <input type="text" id="hidden-input" aria-hidden="true">
+
     <script>
-        // Improved keyboard handler
+        // iOS Keyboard Fix
         function focusHiddenInput() {
             const input = document.getElementById('hidden-input');
             input.focus();
-            input.value = ' '; // iOS needs non-empty value
+            input.value = ' ';
             setTimeout(() => input.value = '', 10);
         }
-        
-        // Connect to Godot
-        function godotFocusInput() {
-            focusHiddenInput();
-        }
+
+        // Initialize after Godot loads
+        window.addEventListener('load', function() {
+            // Set canvas focus mode for iOS
+            const canvas = document.getElementById('canvas');
+            canvas.tabIndex = 1;
+            canvas.style.outline = 'none';
+            
+            // Connect to Godot
+            if (typeof Engine !== 'undefined') {
+                Engine.setCanvasFocusMode('manual');
+            }
+        });
     </script>
-    ${GODOT_JS_SCRIPT}
+    <!-- Godot will inject its engine script here -->
 </body>
 </html>
