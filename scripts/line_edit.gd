@@ -131,3 +131,8 @@ func _on_next_button_button_up() -> void:
 	#print(config.get_value("app", "guard_number", "Error. Does Not Exist."))
 	
 	# Here will be the break!
+
+func _on_focus_entered() -> void:
+	# Call JavaScript to trigger keyboard
+	if OS.has_feature('web'):
+		JavaScriptBridge.eval("focusInput()", true)

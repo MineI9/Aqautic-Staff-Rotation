@@ -128,6 +128,7 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_wd6pd")
 
+[connection signal="focus_entered" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_focus_entered"]
 [connection signal="text_changed" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_text_changed"]
 [connection signal="text_submitted" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" to="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/LineEditMargin/LineEdit" method="_on_text_submitted"]
 [connection signal="button_up" from="MarginContainer/MainVBox/CircleMargin/TextMargin/ScrollContainer/TextEditVBox/NextButtonMargin/NextButton" to="." method="_on_next_button_button_up"]
