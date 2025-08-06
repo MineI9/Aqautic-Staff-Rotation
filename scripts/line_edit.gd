@@ -135,4 +135,4 @@ func _on_next_button_button_up() -> void:
 func _on_focus_entered() -> void:
 	# Call JavaScript to trigger keyboard
 	if OS.has_feature('web'):
-		JavaScriptBridge.eval("focusInput()", true)
+		JavaScriptBridge.eval("godotFocusInput()", true)
