@@ -136,5 +136,5 @@ func _on_focus_entered() -> void:
 	# iOS-specific fixes
 	# Default behavior first
 	if OS.has_feature('web') and OS.get_name() == "iOS":
-		await get_tree().create_timer(0.15).timeout
+		await get_tree().create_timer(1.15).timeout
 		grab_focus()  # Secondary focus grab for iOS
