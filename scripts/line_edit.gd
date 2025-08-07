@@ -132,21 +132,27 @@ func _on_next_button_button_up() -> void:
 	
 	# Here will be the break!
 
-func _on_focus_entered() -> void:
+#func _on_focus_entered() -> void:
 	# iOS-specific fixes
 	# Default behavior first
-	if OS.has_feature('web') and OS.get_name() == "iOS":
-		await get_tree().create_timer(1.15).timeout
-		grab_focus()  # Secondary focus grab for iOS
-		_trigger_ios_keyboard()
+	#if OS.has_feature('web') and OS.get_name() == "iOS":
+		#await get_tree().create_timer(1.15).timeout
+		#grab_focus()  # Secondary focus grab for iOS
+		#_trigger_ios_keyboard()
 
-func _trigger_ios_keyboard():
+#func _trigger_ios_keyboard():
 	# The only 100% reliable method for iOS
-	var dummy = TextEdit.new()
-	dummy.size = Vector2(1, 1)
-	dummy.position = Vector2(-100, -100) # Offscreen
-	add_child(dummy)
-	dummy.grab_focus()
-	await get_tree().process_frame
-	dummy.queue_free()
-	grab_focus()
+	#var dummy = TextEdit.new()
+	#dummy.size = Vector2(1, 1)
+	#dummy.position = Vector2(-100, -100) # Offscreen
+	#add_child(dummy)
+	#dummy.grab_focus()
+	#await get_tree().process_frame
+	#dummy.queue_free()
+	#grab_focus()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.keycode == KEY_ENTER and event.pressed:
+			emit_signal("text_submitted", text)
+			accept_event()
